@@ -1,2 +1,2 @@
-# thesis_app
-Thesis web app
+Temporary URL: 
+http://3.18.176.115

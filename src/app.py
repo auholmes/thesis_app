@@ -2,6 +2,7 @@ import re
 from flask import Flask, request, render_template
 from gevent.pywsgi import WSGIServer
 from src.ner.flair_ner import tag_entities
+from src.tei.assemble_tei import create_header, create_xml
 
 app = Flask(__name__)
 
@@ -23,10 +24,20 @@ def output():
 
 @app.route('/', methods=['POST'])
 def submit_text():
-    text = request.form['rawtext']
+    title = request.form['teiHeaderTitle']
+    author = request.form['teiHeaderAuthor']
+    editor = request.form['teiHeaderEditor']
+
+    tei_header = create_header(title, author, editor)
+
+    text = request.form['rawText']
     text = re.sub('\t', ' ', text)
     text = re.sub(' +', ' ', text)
-    return render_template('output.html', results=tag_entities(text))
+
+    tei_document = create_xml(tei_header, '')
+    return render_template('output.html',
+                           tei=tei_document,
+                           results=tag_entities(text))
 
 
 if __name__ == '__main__':

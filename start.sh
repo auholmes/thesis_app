@@ -1,7 +1,14 @@
-# Install Requirements
+echo "Cleaning up previous deployment"
+rm -rf venv
 
-python3 -m pip install --upgrade pip
-python3 -m pip install -r requirements.txt
+echo "Activating virtual environment"
+python3.6 -m venv venv
+. venv/bin/activate
 
-# Start App
-python3 -m src.app &
+echo "Installing dependencies"
+pip install --upgrade pip
+pip install -r requirements.txt --no-cache-dir
+
+echo "Starting service"
+python -m src.app &
+

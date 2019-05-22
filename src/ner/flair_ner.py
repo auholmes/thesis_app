@@ -1,8 +1,10 @@
 from flair.models import SequenceTagger
 from flair.data import Sentence
 import logging
+from nltk import download
 from nltk.tokenize import sent_tokenize
-from spacy import displacy
+
+download('punkt')
 
 tagger = SequenceTagger.load('ner')
 logging.info('Loaded tagger')

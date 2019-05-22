@@ -11,4 +11,3 @@ pip install -r requirements.txt --no-cache-dir
 
 echo "Starting service"
 python -m src.app &
-

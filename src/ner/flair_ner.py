@@ -6,7 +6,7 @@ from nltk.tokenize import sent_tokenize
 
 download('punkt')
 
-tagger = SequenceTagger.load('ner')
+tagger = SequenceTagger.load('ner-fast')
 logging.info('Loaded tagger')
 
 

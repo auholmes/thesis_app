@@ -3,6 +3,12 @@ from bs4 import BeautifulSoup
 from lxml import etree
 
 
+tag_dict = {'PER': 'persName',
+            'LOC': 'placeName',
+            'MISC': 'orgName',
+            'ORG': 'name'}
+
+
 def create_header(title='', author='', editor=''):
     soup = BeautifulSoup()
     soup.append(soup.new_tag('teiHeader'))
@@ -20,13 +26,52 @@ def create_header(title='', author='', editor=''):
     return soup
 
 
-def create_xml(header, body=''):
+def create_body(flair_output):
+    soup = BeautifulSoup()
+    soup.append(soup.new_tag('text'))
+    soup.find('text').append(soup.new_tag('body'))
+    soup.body.append(soup.new_tag('div'))
+    soup.div.append(soup.new_tag('p'))
+    markup = ''
+    for x in flair_output:
+        text = x['text']
+        entities = x['entities']
+        index = 0
+        for e in entities:
+            markup += text[index:e['start_pos']]
+            markup += '<{}>{}</{}>'.format(tag_dict[e['type']], e['text'], tag_dict[e['type']])
+            index = e['end_pos']
+        markup += text[index:]
+        markup += ' '
+    markup = markup[0:-1]
+    soup.p.string = markup
+    return soup
+
+
+def create_xml(header, body):
     soup = BeautifulSoup()
     soup.append(soup.new_tag('TEI', xmlns="http://www.tei-c.org/ns/1.0"))
     soup.TEI.append(header)
+    soup.TEI.append(body)
     root = etree.fromstring(str(soup))
-    return etree.tostring(root, pretty_print=True).decode()
+    xml_str = etree.tostring(root, pretty_print=True).decode()
+    xml_str = re.sub('&lt;', '<', xml_str)
+    xml_str = re.sub('&gt;', '>', xml_str)
+    xml_str = re.sub('&amp;', '&', xml_str)
+    xml_str = re.sub('&#163;', '£', xml_str)
+    xml_str = re.sub('&#8220;', '"', xml_str)
+    xml_str = re.sub('&#8221;', '"', xml_str)
+    xml_str = re.sub('&#8217;', "'", xml_str)
+
+    return xml_str.encode('utf-8')
 
 
 if __name__ == '__main__':
-    print(create_header(author='author', editor='editor'))
+    flair_output = [{'text': 'Hello, my name is Audrey.', 'labels': [], 'entities': [{'text': 'Audrey.', 'start_pos': 18, 'end_pos': 25, 'type': 'PER', 'confidence': 0.9849573373794556}]},
+                    {'text': 'I love New York.', 'labels': [], 'entities': [
+                        {'text': 'New York.', 'start_pos': 7, 'end_pos': 16, 'type': 'LOC',
+                         'confidence': 0.9960977137088776}]}
+                    ]
+    header = create_header('Title', 'Author', 'Editor')
+    body = create_body(flair_output)
+    print(create_xml(header, body))

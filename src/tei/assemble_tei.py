@@ -8,7 +8,7 @@ tag_dict = {'PER': 'persName',
             'MISC': 'orgName',
             'ORG': 'name'}
 
-titles = ['Mr.', 'Mr' 'Mrs.', 'Mrs', 'Miss', 'Dr.', 'Dr', 'Sir', 'Ms.', 'Ms']
+titles = ['Mr.', 'Mr', 'Mrs.', 'Mrs', 'Miss', 'Dr.', 'Dr', 'Sir', 'Ms.', 'Ms']
 
 
 def create_name_ref(x):

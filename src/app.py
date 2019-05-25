@@ -27,9 +27,10 @@ def submit_text():
     title = request.form['teiHeaderTitle']
     author = request.form['teiHeaderAuthor']
     editor = request.form['teiHeaderEditor']
+    publisher = request.form['teiHeaderPublisher']
 
     # Create header
-    tei_header = create_header(title, author, editor)
+    tei_header = create_header(title, author, editor, publisher)
 
     # Create body
     text = request.form['rawText']

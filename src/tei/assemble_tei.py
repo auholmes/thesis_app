@@ -8,8 +8,24 @@ tag_dict = {'PER': 'persName',
             'MISC': 'orgName',
             'ORG': 'name'}
 
+titles = ['Mr.', 'Mr' 'Mrs.', 'Mrs', 'Miss', 'Dr.', 'Dr', 'Sir', 'Ms.', 'Ms']
 
-def create_header(title='', author='', editor=''):
+
+def create_name_ref(x):
+    ref = x.split()
+    ref = [t for t in ref if t not in titles]
+    ref.insert(0, ref.pop(-1))
+    ref = '#{}'.format('_'.join(ref))
+    return re.sub(r'\.|,', '', ref)
+
+
+def create_ref(x):
+    ref = x.split()
+    ref = '#{}'.format('_'.join(ref))
+    return re.sub(r'\.|,', '', ref)
+
+
+def create_header(title='', author='', editor='', publisher=''):
     soup = BeautifulSoup()
     soup.append(soup.new_tag('teiHeader'))
     soup.find('teiHeader').append(soup.new_tag('fileDesc'))
@@ -19,10 +35,21 @@ def create_header(title='', author='', editor=''):
         soup.title.string = title
     if author != '':
         soup.find('titleStmt').append(soup.new_tag('author'))
-        soup.author.string = author
+        soup.author.append(soup.new_tag('persName'))
+        soup.author.persName.string = author
+        soup.author.persName['ref'] = create_name_ref(author)
     if editor != '':
         soup.find('titleStmt').append(soup.new_tag('editor'))
-        soup.editor.string = editor
+        soup.editor.append(soup.new_tag('persName'))
+        soup.editor.persName.string = editor
+        soup.editor.persName['ref'] = create_name_ref(editor)
+    if publisher != '':
+        soup.fileDesc.append(soup.new_tag('publicationStmt'))
+        soup.publicationStmt.append(soup.new_tag('publisher'))
+        soup.publisher.append(soup.new_tag('orgName'))
+        soup.publisher.orgName.string = publisher
+        soup.publisher.orgName['ref'] = create_ref(publisher)
+
     return soup
 
 

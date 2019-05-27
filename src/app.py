@@ -30,10 +30,11 @@ def submit_text():
     publisher = request.form['teiHeaderPublisher']
     publisher_address = request.form['teiHeaderPublisherAddress']
     publication_date = request.form['teiHeaderPublicationDate']
+    license_desc = request.form['teiHeaderLicense']
 
     # Create header
     tei_header = create_header(title, author, editor, publisher, publisher_address,
-                               publication_date)
+                               publication_date, license_desc)
 
     # Create body
     text = request.form['rawText']

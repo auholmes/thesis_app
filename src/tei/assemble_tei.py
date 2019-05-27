@@ -1,6 +1,7 @@
 import re
 from bs4 import BeautifulSoup
 from lxml import etree
+from src.utils.license_utils import license_dict
 
 
 tag_dict = {'PER': 'persName',
@@ -26,7 +27,7 @@ def create_ref(x):
 
 
 def create_header(title='', author='', editor='', publisher='', publisher_address='',
-                  publication_date=''):
+                  publication_date='', license_desc=''):
     soup = BeautifulSoup()
     soup.append(soup.new_tag('teiHeader'))
     soup.find('teiHeader').append(soup.new_tag('fileDesc'))
@@ -54,6 +55,11 @@ def create_header(title='', author='', editor='', publisher='', publisher_addres
             soup.publicationStmt.append(soup.new_tag('address'))
             soup.publicationStmt.address.append(soup.new_tag('addrLine'))
             soup.publicationStmt.address.addrLine.string = publisher_address
+        if license_desc != '':
+            soup.publicationStmt.append(soup.new_tag('availability'))
+            soup.availability.append(soup.new_tag('license'))
+            soup.license['target'] = license_dict[license_desc]['target']
+            soup.license.string = license_dict[license_desc]['text']
         if publication_date != '':
             soup.publicationStmt.append(soup.new_tag('date'))
             soup.publicationStmt.date.string = publication_date

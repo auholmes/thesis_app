@@ -25,7 +25,8 @@ def create_ref(x):
     return re.sub(r'\.|,', '', ref)
 
 
-def create_header(title='', author='', editor='', publisher=''):
+def create_header(title='', author='', editor='', publisher='', publisher_address='',
+                  publication_date=''):
     soup = BeautifulSoup()
     soup.append(soup.new_tag('teiHeader'))
     soup.find('teiHeader').append(soup.new_tag('fileDesc'))
@@ -49,7 +50,13 @@ def create_header(title='', author='', editor='', publisher=''):
         soup.publisher.append(soup.new_tag('orgName'))
         soup.publisher.orgName.string = publisher
         soup.publisher.orgName['ref'] = create_ref(publisher)
-
+        if publisher_address != '':
+            soup.publicationStmt.append(soup.new_tag('address'))
+            soup.publicationStmt.address.append(soup.new_tag('addrLine'))
+            soup.publicationStmt.address.addrLine.string = publisher_address
+        if publication_date != '':
+            soup.publicationStmt.append(soup.new_tag('date'))
+            soup.publicationStmt.date.string = publication_date
     return soup
 
 
@@ -65,9 +72,10 @@ def create_body(flair_output):
         entities = x['entities']
         index = 0
         for e in entities:
-            markup += text[index:e['start_pos']]
-            markup += '<{}>{}</{}>'.format(tag_dict[e['type']], e['text'], tag_dict[e['type']])
-            index = e['end_pos']
+            if e['text'] not in ["I’ve", "I’ll", "I", "I’m", "I've", "I'll", "I'm"]:
+                markup += text[index:e['start_pos']]
+                markup += '<{}>{}</{}>'.format(tag_dict[e['type']], e['text'], tag_dict[e['type']])
+                index = e['end_pos']
         markup += text[index:]
         markup += ' '
     markup = markup[0:-1]
@@ -89,6 +97,7 @@ def create_xml(header, body):
     xml_str = re.sub('&#8220;', '"', xml_str)
     xml_str = re.sub('&#8221;', '"', xml_str)
     xml_str = re.sub('&#8217;', "'", xml_str)
+    xml_str = re.sub(' Nile.', ' <placeName ref="Nile">Nile</placeName>.', xml_str)
 
     return xml_str.encode('utf-8')
 

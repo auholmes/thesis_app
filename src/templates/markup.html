@@ -38,40 +38,64 @@
 
     <div class="container">
         <form method="POST" action="/">
-            <div class="form-group">
-                <label>Title</label>
-                <input type="text" class="form-control form-control-sm" name="teiHeaderTitle">
-                <br/>
-                <label>Author</label>
-                <input type="text" class="form-control form-control-sm" name="teiHeaderAuthor">
-                <br/>
-                <label>Editor</label>
-                <input type="text" class="form-control form-control-sm" name="teiHeaderEditor">
-                <br/>
-                <label>Publisher</label>
-                <input type="text" class="form-control form-control-sm" name="teiHeaderPublisher">
-                <br/>
-                <label>Publisher Address <span class="badge badge-info">New</span></label>
-                <input type="text" class="form-control form-control-sm" name="teiHeaderPublisherAddress">
-                <br/>
-                <label>Publication Date <span class="badge badge-info">New</span></label>
-                <input type="text" class="form-control form-control-sm" name="teiHeaderPublicationDate">
-                <br/>
-                <label>License <span class="badge badge-info">New</span></label>
-                <select type="text" class="form-control form-control-sm" name="teiHeaderLicense">
-                  <option value="CC_Attr_NonComm">Creative Commons Attribution-NonCommercial 4.0 International</option>
-                  <option value="CC_Attr">Creative Commons Attribution 4.0 International</option>
-                  <option value="CC_Attr_ShareAlike">Creative Commons Attribution-ShareAlike 4.0 International</option>
-                  <option value="CC_Attr_NonComm_ShareAlike">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</option>
-                </select>
-                <br/>
-
-                <label><font color="red">* </font>Your Text</label>
-                <textarea type="text" rows="7" cols="5" class="form-control"  name="rawText" required="true"></textarea>
-                <br/>
-
-                <button type="reset" class="btn btn-primary"> Clear</button>
-                <button type="submit" class="btn btn-info"> Submit</button>
+            <div class="form-group row">
+                <label class="col-sm-2">Title</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control form-control-sm" name="teiHeaderTitle">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2">Author</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control form-control-sm" name="teiHeaderAuthor">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2">Editor</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control form-control-sm" name="teiHeaderEditor">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2">Publisher</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control form-control-sm" name="teiHeaderPublisher">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2">Publisher Address</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control form-control-sm" name="teiHeaderPublisherAddress">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2">Publication Date</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control form-control-sm" name="teiHeaderPublicationDate">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2">License <span class="badge badge-info">New</span></label>
+                <div class="col-sm-10">
+                    <select type="text" class="form-control form-control-sm" name="teiHeaderLicense">
+                      <option value="CC_Attr_NonComm">Creative Commons Attribution-NonCommercial 4.0 International</option>
+                      <option value="CC_Attr">Creative Commons Attribution 4.0 International</option>
+                      <option value="CC_Attr_ShareAlike">Creative Commons Attribution-ShareAlike 4.0 International</option>
+                      <option value="CC_Attr_NonComm_ShareAlike">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2">Your Text <font color="red">* </font></label>
+                <div class="col-sm-10">
+                    <textarea type="text" rows="7" cols="5" class="form-control"  name="rawText" required="true"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="reset" class="btn btn-primary"> Clear</button>
+                    <button type="submit" class="btn btn-info"> Submit</button>
+                </div>
             </div>
         </form>
     </div>

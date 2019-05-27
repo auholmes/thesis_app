@@ -1,8 +1,4 @@
-echo "Cleaning up previous deployment"
-rm -rf venv
-
 echo "Activating virtual environment"
-python3.6 -m venv venv
 . venv/bin/activate
 
 echo "Installing dependencies"

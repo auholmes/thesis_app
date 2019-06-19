@@ -31,10 +31,22 @@ def submit_text():
     publisher_address = request.form['teiHeaderPublisherAddress']
     publication_date = request.form['teiHeaderPublicationDate']
     license_desc = request.form['teiHeaderLicense']
+    project_description = request.form['teiHeaderProjectDescription']
+    source_description = request.form['teiHeaderSourceDescription']
 
+    project_description = re.sub('\n|\t\r|\r\n', ' ', project_description)
+    project_description = re.sub(' +', ' ', project_description)
+    if project_description != '':
+        project_description = tag_entities(project_description)
+
+    source_description = re.sub('\n|\t\r|\r\n', ' ', source_description)
+    source_description = re.sub(' +', ' ', source_description)
+    if source_description != '':
+        source_description = tag_entities(source_description
+                                          )
     # Create header
     tei_header = create_header(title, author, editor, publisher, publisher_address,
-                               publication_date, license_desc)
+                               publication_date, license_desc, project_description, source_description)
 
     # Create body
     text = request.form['rawText']
